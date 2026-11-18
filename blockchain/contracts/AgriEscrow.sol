@@ -41,6 +41,14 @@ contract AgriEscrow {
         uint256 timestamp
     );
 
+    event DeliveryConfirmed(uint256 indexed orderId, uint256 timestamp);
+
+    event PaymentReleased(
+        uint256 indexed orderId,
+        address indexed farmer,
+        uint256 amount
+    );
+
     modifier onlyBuyer(uint256 _orderId) {
         require(msg.sender == orders[_orderId].buyer, "Chi nguoi mua moi co quyen");
         _;
@@ -97,6 +105,23 @@ contract AgriEscrow {
         require(success, "Giai ngan 30% that bai");
 
         emit ShipmentConfirmed(_orderId, advanceAmount, block.timestamp);
+    }
+
+    function confirmDelivery(uint256 _orderId) external onlyBuyer(_orderId) {
+        Order storage order = orders[_orderId];
+        require(order.status == OrderStatus.Shipped, "Don hang chua o trang thai Shipped");
+
+        uint256 remaining = order.totalAmount - order.advancePaid; // 70% con lai
+
+        // Cap nhat trang thai TRUOC khi chuyen tien
+        order.status = OrderStatus.Completed;
+
+        emit DeliveryConfirmed(_orderId, block.timestamp);
+
+        (bool success, ) = order.farmer.call{value: remaining}("");
+        require(success, "Giai ngan 70% that bai");
+
+        emit PaymentReleased(_orderId, order.farmer, remaining);
     }
 
     function getOrder(uint256 _orderId) external view returns (Order memory) {

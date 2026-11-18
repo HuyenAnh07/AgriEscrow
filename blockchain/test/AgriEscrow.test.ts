@@ -43,3 +43,66 @@ describe("AgriEscrow - Phần việc Thành viên A", function () {
     expect(order.advancePaid).to.equal(ethers.parseEther("3.0"));
   });
 });
+
+describe("AgriEscrow - confirmDelivery (Thành viên B)", function () {
+  async function setup() {
+    const { ethers } = await network.connect();
+    const [buyer, farmer, arbitrator, stranger] = await ethers.getSigners();
+    const escrow = await ethers.deployContract("AgriEscrow");
+
+    await escrow.connect(buyer).createOrder(
+      farmer.address,
+      arbitrator.address,
+      "Sầu riêng Ri6",
+      500,
+      { value: ethers.parseEther("10.0") }
+    );
+    return { ethers, escrow, buyer, farmer, arbitrator, stranger };
+  }
+
+  it("2. Người mua xác nhận nhận hàng -> nông dân nhận nốt 7 AVAX, đơn Completed", async function () {
+    const { ethers, escrow, buyer, farmer } = await setup();
+
+    await escrow.connect(farmer).confirmShipment(1);
+
+    const before = await ethers.provider.getBalance(farmer.address);
+    await escrow.connect(buyer).confirmDelivery(1); // buyer trả gas, farmer không mất gas
+    const after = await ethers.provider.getBalance(farmer.address);
+
+    expect(after - before).to.equal(ethers.parseEther("7.0"));
+
+    const order = await escrow.getOrder(1);
+    expect(order.status).to.equal(3n); // Completed
+
+    // Contract không còn giữ AVAX nào
+    const escrowBalance = await ethers.provider.getBalance(await escrow.getAddress());
+    expect(escrowBalance).to.equal(0n);
+  });
+
+  it("3. Người lạ không được xác nhận nhận hàng", async function () {
+    const { escrow, farmer, stranger } = await setup();
+    await escrow.connect(farmer).confirmShipment(1);
+
+    await expect(
+      escrow.connect(stranger).confirmDelivery(1)
+    ).to.be.revertedWith("Chi nguoi mua moi co quyen");
+  });
+
+  it("4. Chưa giao hàng (Created) thì không xác nhận nhận hàng được", async function () {
+    const { escrow, buyer } = await setup();
+
+    await expect(
+      escrow.connect(buyer).confirmDelivery(1)
+    ).to.be.revertedWith("Don hang chua o trang thai Shipped");
+  });
+
+  it("5. Không thể xác nhận nhận hàng hai lần (chống rút tiền 2 lần)", async function () {
+    const { escrow, buyer, farmer } = await setup();
+    await escrow.connect(farmer).confirmShipment(1);
+    await escrow.connect(buyer).confirmDelivery(1);
+
+    await expect(
+      escrow.connect(buyer).confirmDelivery(1)
+    ).to.be.revertedWith("Don hang chua o trang thai Shipped");
+  });
+});
