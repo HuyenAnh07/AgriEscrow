@@ -41,6 +41,29 @@ contract AgriEscrow {
         uint256 timestamp
     );
 
+    event DeliveryConfirmed(uint256 indexed orderId, uint256 timestamp);
+
+    event PaymentReleased(
+        uint256 indexed orderId,
+        address indexed farmer,
+        uint256 amount
+    );
+
+    event DisputeRaised(
+        uint256 indexed orderId,
+        address indexed raisedBy,
+        string reason,
+        uint256 timestamp
+    );
+
+    event DisputeResolved(
+        uint256 indexed orderId,
+        address indexed arbitrator,
+        address indexed winner,
+        uint256 amount,
+        uint256 timestamp
+    );
+
     modifier onlyBuyer(uint256 _orderId) {
         require(msg.sender == orders[_orderId].buyer, "Chi nguoi mua moi co quyen");
         _;
@@ -97,6 +120,57 @@ contract AgriEscrow {
         require(success, "Giai ngan 30% that bai");
 
         emit ShipmentConfirmed(_orderId, advanceAmount, block.timestamp);
+    }
+
+    function confirmDelivery(uint256 _orderId) external onlyBuyer(_orderId) {
+        Order storage order = orders[_orderId];
+        require(order.status == OrderStatus.Shipped, "Don hang chua o trang thai Shipped");
+
+        uint256 remaining = order.totalAmount - order.advancePaid; // 70% con lai
+
+        // Cap nhat trang thai TRUOC khi chuyen tien
+        order.status = OrderStatus.Completed;
+
+        emit DeliveryConfirmed(_orderId, block.timestamp);
+
+        (bool success, ) = order.farmer.call{value: remaining}("");
+        require(success, "Giai ngan 70% that bai");
+
+        emit PaymentReleased(_orderId, order.farmer, remaining);
+    }
+
+     function raiseDispute(uint256 _orderId, string calldata _reason) external {
+        require(_orderId > 0 && _orderId <= orderCounter, "Don hang khong ton tai");
+        Order storage order = orders[_orderId];
+
+        require(
+            msg.sender == order.buyer || msg.sender == order.farmer,
+            "Chi nguoi mua hoac nong dan moi co quyen"
+        );
+        require(order.status == OrderStatus.Shipped, "Don hang chua o trang thai Shipped");
+
+        order.status = OrderStatus.Disputed;
+
+        emit DisputeRaised(_orderId, msg.sender, _reason, block.timestamp);
+    }
+
+    function resolveDispute(uint256 _orderId, bool _favorFarmer) external {
+        require(_orderId > 0 && _orderId <= orderCounter, "Don hang khong ton tai");
+        Order storage order = orders[_orderId];
+
+        require(msg.sender == order.arbitrator, "Chi trong tai moi co quyen");
+        require(order.status == OrderStatus.Disputed, "Don hang khong o trang thai Disputed");
+
+        uint256 remaining = order.totalAmount - order.advancePaid; // 70% con lai
+        address payable winner = _favorFarmer ? order.farmer : order.buyer;
+
+        // Cap nhat trang thai TRUOC khi chuyen tien
+        order.status = OrderStatus.Completed;
+
+        (bool success, ) = winner.call{value: remaining}("");
+        require(success, "Chuyen tien that bai");
+
+        emit DisputeResolved(_orderId, msg.sender, winner, remaining, block.timestamp);
     }
 
     function getOrder(uint256 _orderId) external view returns (Order memory) {
