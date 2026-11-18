@@ -5,7 +5,7 @@ import BuyerDeliveryAndArbitratorView from "./components/BuyerDeliveryAndArbitra
 import TraceabilityView from "./components/TraceabilityView";
 
 // Thay bằng địa chỉ sau khi deploy lên Avalanche Fuji
-const CONTRACT_ADDRESS = "0xYourDeployedContractAddressOnFuji";
+const CONTRACT_ADDRESS = "0xd1C8fDce7B4E97FcF67b7432A53a858d672c5807";
 const FUJI_CHAIN_ID = "0xa869"; // 43113 in hex
 
 const CONTRACT_ABI = [
