@@ -43,14 +43,27 @@ export default function BuyerPortal() {
   const [activeTab, setActiveTab] = useState("portalA");
   const [traceId, setTraceId] = useState(1);
 
+  // Tự động mở Landing Page (welcome.html) nếu vào thẳng "/" mà chưa bấm vào app hoặc chưa quét QR
+  const searchParams = new URLSearchParams(window.location.search);
+  const isEnteringApp = searchParams.get("app") === "true" || searchParams.has("traceId");
+
   useEffect(() => {
+    if (!isEnteringApp) {
+      window.location.replace("/welcome.html");
+      return;
+    }
+
     const params = new URLSearchParams(window.location.search);
     const qrId = params.get("traceId");
     if (qrId) {
       setTraceId(Number(qrId));
       setActiveTab("traceB");
     }
-  }, []);
+  }, [isEnteringApp]);
+
+  if (!isEnteringApp) {
+    return null;
+  }
 
   const connectWallet = async () => {
     if (!window.ethereum) return alert("Vui lòng cài đặt MetaMask hoặc Core Wallet!");
@@ -231,8 +244,12 @@ export default function BuyerPortal() {
             alignItems: "center"
           }}
         >
-          {/* Logo Hexagon + Leaf chuẩn Mossline */}
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+          {/* Logo Hexagon + Leaf chuẩn Mossline (Bấm để quay lại Landing Page) */}
+          <div
+            onClick={() => (window.location.href = "/welcome.html")}
+            title="Quay lại trang giới thiệu"
+            style={{ display: "flex", alignItems: "center", gap: 10, cursor: "pointer" }}
+          >
             <svg width="28" height="28" viewBox="0 0 32 32" style={{ color: "#10291a" }}>
               <path fill="currentColor" d="M16 2l12 7v14l-12 7-12-7V9z" opacity="0.15" />
               <path fill="none" stroke="currentColor" strokeWidth="1.6" d="M16 2l12 7v14l-12 7-12-7V9z" />
@@ -899,7 +916,7 @@ export default function BuyerPortal() {
 
             <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: 10, fontSize: 13.5, color: "#2c4434" }}>
               {[
-                { text: "Trang chủ", tab: "portalA" },
+                { text: "Trang giới thiệu", url: "/welcome.html" },
                 { text: "Tạo đơn ký quỹ", tab: "portalA" },
                 { text: "Danh mục lô hàng", tab: "farmerB" },
                 { text: "Xác nhận nhận hàng", tab: "deliveryArbB" },
@@ -908,8 +925,12 @@ export default function BuyerPortal() {
                 <li
                   key={idx}
                   onClick={() => {
-                    setActiveTab(link.tab);
-                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    if (link.url) {
+                      window.location.href = link.url;
+                    } else {
+                      setActiveTab(link.tab);
+                      window.scrollTo({ top: 0, behavior: "smooth" });
+                    }
                   }}
                   style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
                 >
