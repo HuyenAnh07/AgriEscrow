@@ -10,8 +10,7 @@ const STATUS_BADGES = {
   4: { text: "Đang tranh chấp (Disputed)", bg: "#FEE2E2", color: "#991B1B" }
 };
 
-export default function TraceabilityView({ contract, initialOrderId = 1 }) {
-  const [searchId, setSearchId] = useState(initialOrderId);
+export default function TraceabilityView({ contract, initialOrderId = 1, rawOrders = [] }) {  const [searchId, setSearchId] = useState(initialOrderId);
   const [orderData, setOrderData] = useState(null);
   const [timeline, setTimeline] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -212,34 +211,34 @@ export default function TraceabilityView({ contract, initialOrderId = 1 }) {
         </div>
 
         {/* Gợi ý tra cứu nhanh */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
-          <span style={{ color: "#6F7A6E", fontSize: 12, fontWeight: 600 }}>Gợi ý tra cứu:</span>
-          {[
-            { id: 1, label: "Lô #1 (Sầu riêng Ri6)" },
-            { id: 2, label: "Lô #2 (Xoài Cát Chu)" },
-            { id: 3, label: "Lô #3 (Bưởi da xanh)" }
-          ].map((item) => {
-            const isSelected = Number(searchId) === item.id;
-            return (
-              <button
-                key={item.id}
-                onClick={() => handleQuickSelect(item.id)}
-                style={{
-                  padding: "4px 12px",
-                  background: isSelected ? "#15803D" : "#EAEDFF",
-                  color: isSelected ? "#FFFFFF" : "#131B2E",
-                  border: "none",
-                  borderRadius: 9999,
-                  fontSize: 12,
-                  fontFamily: "JetBrains Mono, monospace",
-                  fontWeight: 500,
-                  cursor: "pointer"
-                }}
-              >
-                {item.label}
-              </button>
-            );
-          })}
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap", marginTop: 12 }}>
+          <span style={{ fontSize: 12, color: "#6F7A6E" }}>Gợi ý tra cứu:</span>
+          {rawOrders && rawOrders.length > 0 ? (
+            rawOrders.slice(0, 5).map((o) => {
+              const idNum = Number(o.id);
+              const isSelected = Number(searchId) === idNum;
+              return (
+                <button
+                  key={idNum}
+                  onClick={() => handleQuickSelect(idNum)}
+                  style={{
+                    padding: "4px 12px",
+                    borderRadius: 9999,
+                    border: "none",
+                    fontSize: 12,
+                    fontWeight: 600,
+                    cursor: "pointer",
+                    background: isSelected ? "#00652C" : "#EAEDFF",
+                    color: isSelected ? "#FFFFFF" : "#131B2E"
+                  }}
+                >
+                  Lô #{idNum} ({o.productName})
+                </button>
+              );
+            })
+          ) : (
+            <span style={{ fontSize: 12, color: "#6F7A6E" }}>Chưa có lô hàng nào trên chuỗi</span>
+          )}
         </div>
       </div>
 
