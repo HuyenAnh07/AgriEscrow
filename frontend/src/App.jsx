@@ -1,3 +1,4 @@
+import CreateEscrowForm from './components/CreateEscrowForm';
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import FarmerAndPaymentView from "./components/FarmerAndPaymentView";
@@ -50,14 +51,6 @@ export default function BuyerPortal() {
       setActiveTab("traceB");
     }
   }, []);
-
-  const [form, setForm] = useState({
-    farmerAddress: "",
-    arbitratorAddress: "",
-    productName: "",
-    quantityKg: "",
-    avaxAmount: ""
-  });
 
   // 1. Kết nối ví & tự động chuyển sang mạng Avalanche Fuji
   const connectWallet = async () => {
@@ -129,23 +122,22 @@ export default function BuyerPortal() {
     }
   };
 
-  const handleCreateOrder = async (e) => {
-    e.preventDefault();
+  // HÀM TẠO ĐƠN MỚI (Nhận dữ liệu từ CreateEscrowForm)
+  const handleCreateOrder = async (formData) => {
     if (!contract) return alert("Hãy kết nối ví trước!");
     setLoading(true);
     setTxHash("");
     try {
       const tx = await contract.createOrder(
-        form.farmerAddress,
-        form.arbitratorAddress,
-        form.productName,
-        form.quantityKg,
-        { value: ethers.parseEther(form.avaxAmount) }
+        formData.farmerAddress,
+        formData.arbiterAddress, // Tên biến khớp với field trong form component
+        formData.productName,
+        formData.weight,
+        { value: ethers.parseEther(formData.amountAvax) }
       );
       setTxHash(tx.hash);
       await tx.wait();
       alert("Tạo đơn hàng và khóa tiền AVAX thành công!");
-      setForm({ farmerAddress: "", arbitratorAddress: "", productName: "", quantityKg: "", avaxAmount: "" });
       loadOrders(contract);
     } catch (err) {
       alert("Giao dịch thất bại: " + (err.reason || err.message));
@@ -307,136 +299,12 @@ export default function BuyerPortal() {
 
             {/* Lưới 2 cột: Form Tạo Đơn (Trái) & Danh Sách Đơn Hàng (Phải) */}
             <div style={{ display: "grid", gridTemplateColumns: "minmax(360px, 420px) 1fr", gap: 24, alignItems: "start" }}>
-              {/* CỘT TRÁI: FORM TẠO ĐƠN */}
-              <form onSubmit={handleCreateOrder} style={{ padding: 24, background: "#FFFFFF", borderRadius: 12, boxShadow: "0 1px 2px rgba(0,0,0,0.05)", display: "flex", flexDirection: "column", gap: 16 }}>
-                <div>
-                  <h3 style={{ margin: 0, color: "#131B2E", fontSize: 16, fontWeight: 700 }}>🌱 Tạo Đơn Hàng Ký Quỹ Mới</h3>
-                  <p style={{ margin: "4px 0 0", color: "#3F493F", fontSize: 12 }}>Khởi tạo Smart Contract và ký quỹ AVAX an toàn</p>
-                </div>
-
-                {/* Tên nông sản */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <label style={{ fontSize: 12, fontWeight: 500, color: "#131B2E" }}>Tên nông sản</label>
-                    <span style={{ padding: "2px 8px", background: "rgba(164, 241, 178, 0.4)", borderRadius: 4, color: "#1F6C3A", fontSize: 11, fontWeight: 600 }}>
-                      VietGAP / GlobalGAP
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    value={form.productName}
-                    onChange={(e) => setForm({ ...form, productName: e.target.value })}
-                    placeholder="VD: Sầu riêng Ri6"
-                    style={inputStyle}
-                  />
-                </div>
-
-                {/* Khối lượng */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <label style={{ fontSize: 12, fontWeight: 500, color: "#131B2E" }}>Khối lượng thương phẩm</label>
-                  <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                    <input
-                      type="number"
-                      required
-                      value={form.quantityKg}
-                      onChange={(e) => setForm({ ...form, quantityKg: e.target.value })}
-                      placeholder="100"
-                      style={{ ...inputStyle, width: "100%", paddingRight: 52 }}
-                    />
-                    <span style={{ position: "absolute", right: 10, padding: "2px 8px", background: "#EAEDFF", borderRadius: 4, color: "#3F493F", fontSize: 12, fontFamily: "JetBrains Mono, monospace", fontWeight: 600 }}>
-                      KG
-                    </span>
-                  </div>
-                </div>
-
-                {/* Ví Nông dân */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <label style={{ fontSize: 12, fontWeight: 500, color: "#131B2E" }}>Địa chỉ ví Nông dân</label>
-                    <span style={{ color: "#00652C", fontSize: 11, fontWeight: 600 }}>✓ Hợp tác xã xác thực</span>
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    value={form.farmerAddress}
-                    onChange={(e) => setForm({ ...form, farmerAddress: e.target.value })}
-                    placeholder="0x8196..."
-                    style={{ ...inputStyle, fontSize: 12, fontFamily: "JetBrains Mono, monospace" }}
-                  />
-                </div>
-
-                {/* Ví Trọng tài */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                    <label style={{ fontSize: 12, fontWeight: 500, color: "#131B2E" }}>Địa chỉ ví Trọng tài / Giám định</label>
-                    <span style={{ padding: "2px 8px", background: "rgba(226, 231, 255, 0.6)", borderRadius: 4, color: "#3F493F", fontSize: 11 }}>
-                      Kiểm định độc lập
-                    </span>
-                  </div>
-                  <input
-                    type="text"
-                    required
-                    value={form.arbitratorAddress}
-                    onChange={(e) => setForm({ ...form, arbitratorAddress: e.target.value })}
-                    placeholder="0x1E6c..."
-                    style={{ ...inputStyle, fontSize: 12, fontFamily: "JetBrains Mono, monospace" }}
-                  />
-                </div>
-
-                {/* Tổng tiền AVAX */}
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  <label style={{ fontSize: 12, fontWeight: 500, color: "#131B2E" }}>Tổng tiền khóa Escrow (AVAX)</label>
-                  <div style={{ position: "relative", display: "flex", alignItems: "center" }}>
-                    <input
-                      type="number"
-                      step="0.001"
-                      required
-                      value={form.avaxAmount}
-                      onChange={(e) => setForm({ ...form, avaxAmount: e.target.value })}
-                      placeholder="0.1"
-                      style={{ ...inputStyle, width: "100%", paddingRight: 68, fontFamily: "JetBrains Mono, monospace" }}
-                    />
-                    <span style={{ position: "absolute", right: 8, padding: "4px 10px", background: "#AE121F", borderRadius: 6, color: "#FFFFFF", fontSize: 12, fontFamily: "JetBrains Mono, monospace", fontWeight: 700 }}>
-                      AVAX
-                    </span>
-                  </div>
-                </div>
-
-                {/* Khung tính tự động 30% / 70% */}
-                <div style={{ padding: 14, background: "#F2F3FF", borderRadius: 8, display: "flex", flexDirection: "column", gap: 8 }}>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
-                    <span style={{ color: "#131B2E", fontWeight: 500 }}>• Giai đoạn 1 (30% Xuất kho):</span>
-                    <span style={{ color: "#1F6C3A", fontFamily: "JetBrains Mono, monospace", fontWeight: 600 }}>
-                      {(Number(form.avaxAmount || 0) * 0.3).toFixed(3)} AVAX
-                    </span>
-                  </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12 }}>
-                    <span style={{ color: "#131B2E", fontWeight: 500 }}>• Giai đoạn 2 (70% Nhận hàng):</span>
-                    <span style={{ color: "#00652C", fontFamily: "JetBrains Mono, monospace", fontWeight: 600 }}>
-                      {(Number(form.avaxAmount || 0) * 0.7).toFixed(3)} AVAX
-                    </span>
-                  </div>
-                  <p style={{ margin: "4px 0 0", fontSize: 11, color: "#3F493F", lineHeight: 1.4 }}>
-                    ℹ️ Tiền ký quỹ sẽ được khóa trong hợp đồng Escrow cho tới khi các bên kích hoạt chữ ký.
-                  </p>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  style={{ height: 44, background: "#15803D", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 15, fontWeight: 600, cursor: "pointer", boxShadow: "0 1px 2px rgba(0,0,0,0.08)" }}
-                >
-                  {loading ? "⏳ Đang xử lý Blockchain..." : "🔒 Tạo Đơn & Khóa AVAX"}
-                </button>
-
-                <div style={{ padding: 12, background: "rgba(164, 241, 178, 0.4)", borderRadius: 8 }}>
-                  <div style={{ color: "#24703E", fontSize: 12, fontWeight: 700 }}>Cơ chế Bảo chứng Nông hộ</div>
-                  <div style={{ color: "#3F493F", fontSize: 12, marginTop: 2 }}>
-                    Nông dân nhận ngay 30% kinh phí thu hái & vận tải khi container xuất phát.
-                  </div>
-                </div>
-              </form>
+              
+              {/* CỘT TRÁI: ĐÃ THAY BẰNG COMPONENT FORM MỚI */}
+              <CreateEscrowForm 
+                isSubmitting={loading} 
+                onCreateOrder={handleCreateOrder} 
+              />
 
               {/* CỘT PHẢI: DANH SÁCH ĐƠN HÀNG & GIẢI NGÂN */}
               <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -641,14 +509,3 @@ export default function BuyerPortal() {
     </div>
   );
 }
-
-const inputStyle = {
-  height: 40,
-  padding: "0 12px",
-  borderRadius: 8,
-  border: "1px solid #CBD5E1",
-  fontSize: 14,
-  color: "#131B2E",
-  outline: "none",
-  boxSizing: "border-box"
-};
