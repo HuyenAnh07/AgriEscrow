@@ -20,19 +20,19 @@ export default defineConfig({
     },
   },
   networks: {
-    hardhatMainnet: {
-      type: "edr-simulated",
-      chainType: "l1",
-    },
-    hardhatOp: {
-      type: "edr-simulated",
-      chainType: "op",
-    },
-    sepolia: {
-      type: "http",
-      chainType: "l1",
-      url: configVariable("SEPOLIA_RPC_URL"),
-      accounts: [configVariable("SEPOLIA_PRIVATE_KEY")],
-    },
+  hardhatMainnet: { type: "edr-simulated", chainType: "l1" },
+  hardhatOp: { type: "edr-simulated", chainType: "op" },
+  localhost: {
+    type: "http",
+    chainType: "l1",
+    url: "http://127.0.0.1:8545",
   },
+  fuji: {
+    type: "http",
+    chainType: "l1",
+    url: "https://api.avax-test.network/ext/bc/C/rpc",
+    chainId: 43113,
+    accounts: [configVariable("FUJI_PRIVATE_KEY")],
+  },
+ },
 });

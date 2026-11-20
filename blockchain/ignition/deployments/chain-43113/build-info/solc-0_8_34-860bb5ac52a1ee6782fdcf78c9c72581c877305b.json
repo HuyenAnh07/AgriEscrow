@@ -1,0 +1,49 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_34-860bb5ac52a1ee6782fdcf78c9c72581c877305b",
+  "solcVersion": "0.8.34",
+  "solcLongVersion": "0.8.34+commit.80d5c536",
+  "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.22.0"
+  },
+  "userSourceNameMap": {
+    "contracts/AgriEscrow.sol": "project/contracts/AgriEscrow.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "osaka",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/AgriEscrow.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.20;\r\n\r\ncontract AgriEscrow {\r\n    enum OrderStatus {\r\n        Created,    // Đã tạo đơn & khóa tiền\r\n        Shipped,    // Đã giao hàng & ứng trước 30%\r\n        Delivered,  // Đã nhận hàng\r\n        Completed,  // Đã thanh toán đủ 100%\r\n        Disputed    // Đang tranh chấp\r\n    }\r\n\r\n    struct Order {\r\n        uint256 id;\r\n        address payable buyer;\r\n        address payable farmer;\r\n        address arbitrator;\r\n        string productName;\r\n        uint256 quantityKg;\r\n        uint256 totalAmount;\r\n        uint256 advancePaid;\r\n        OrderStatus status;\r\n        uint256 createdAt;\r\n        uint256 shippedAt;\r\n    }\r\n\r\n    uint256 public orderCounter;\r\n    mapping(uint256 => Order) public orders;\r\n\r\n    event OrderCreated(\r\n        uint256 indexed orderId,\r\n        address indexed buyer,\r\n        address indexed farmer,\r\n        string productName,\r\n        uint256 totalAmount\r\n    );\r\n\r\n    event ShipmentConfirmed(\r\n        uint256 indexed orderId,\r\n        uint256 advanceAmount,\r\n        uint256 timestamp\r\n    );\r\n\r\n    event DeliveryConfirmed(uint256 indexed orderId, uint256 timestamp);\r\n\r\n    event PaymentReleased(\r\n        uint256 indexed orderId,\r\n        address indexed farmer,\r\n        uint256 amount\r\n    );\r\n\r\n    event DisputeRaised(\r\n        uint256 indexed orderId,\r\n        address indexed raisedBy,\r\n        string reason,\r\n        uint256 timestamp\r\n    );\r\n\r\n    event DisputeResolved(\r\n        uint256 indexed orderId,\r\n        address indexed arbitrator,\r\n        address indexed winner,\r\n        uint256 amount,\r\n        uint256 timestamp\r\n    );\r\n\r\n    modifier onlyBuyer(uint256 _orderId) {\r\n        require(msg.sender == orders[_orderId].buyer, \"Chi nguoi mua moi co quyen\");\r\n        _;\r\n    }\r\n\r\n    modifier onlyFarmer(uint256 _orderId) {\r\n        require(msg.sender == orders[_orderId].farmer, \"Chi nong dan moi co quyen\");\r\n        _;\r\n    }\r\n\r\n    function createOrder(\r\n        address payable _farmer,\r\n        address _arbitrator,\r\n        string memory _productName,\r\n        uint256 _quantityKg\r\n    ) external payable returns (uint256) {\r\n        require(_farmer != address(0) && _farmer != msg.sender, \"Dia chi nong dan khong hop le\");\r\n        require(_arbitrator != address(0), \"Dia chi trong tai khong hop le\");\r\n        require(msg.value > 0, \"So tien khoa phai lon hon 0 AVAX\");\r\n        require(_quantityKg > 0, \"Khoi luong phai lon hon 0\");\r\n\r\n        orderCounter++;\r\n        uint256 newOrderId = orderCounter;\r\n\r\n        orders[newOrderId] = Order({\r\n            id: newOrderId,\r\n            buyer: payable(msg.sender),\r\n            farmer: _farmer,\r\n            arbitrator: _arbitrator,\r\n            productName: _productName,\r\n            quantityKg: _quantityKg,\r\n            totalAmount: msg.value,\r\n            advancePaid: 0,\r\n            status: OrderStatus.Created,\r\n            createdAt: block.timestamp,\r\n            shippedAt: 0\r\n        });\r\n\r\n        emit OrderCreated(newOrderId, msg.sender, _farmer, _productName, msg.value);\r\n        return newOrderId;\r\n    }\r\n\r\n    function confirmShipment(uint256 _orderId) external onlyFarmer(_orderId) {\r\n        Order storage order = orders[_orderId];\r\n        require(order.status == OrderStatus.Created, \"Don hang khong o trang thai Created\");\r\n\r\n        uint256 advanceAmount = (order.totalAmount * 30) / 100;\r\n        \r\n        order.status = OrderStatus.Shipped;\r\n        order.advancePaid = advanceAmount;\r\n        order.shippedAt = block.timestamp;\r\n\r\n        (bool success, ) = order.farmer.call{value: advanceAmount}(\"\");\r\n        require(success, \"Giai ngan 30% that bai\");\r\n\r\n        emit ShipmentConfirmed(_orderId, advanceAmount, block.timestamp);\r\n    }\r\n\r\n    function confirmDelivery(uint256 _orderId) external onlyBuyer(_orderId) {\r\n        Order storage order = orders[_orderId];\r\n        require(order.status == OrderStatus.Shipped, \"Don hang chua o trang thai Shipped\");\r\n\r\n        uint256 remaining = order.totalAmount - order.advancePaid; // 70% con lai\r\n\r\n        // Cap nhat trang thai TRUOC khi chuyen tien\r\n        order.status = OrderStatus.Completed;\r\n\r\n        emit DeliveryConfirmed(_orderId, block.timestamp);\r\n\r\n        (bool success, ) = order.farmer.call{value: remaining}(\"\");\r\n        require(success, \"Giai ngan 70% that bai\");\r\n\r\n        emit PaymentReleased(_orderId, order.farmer, remaining);\r\n    }\r\n\r\n     function raiseDispute(uint256 _orderId, string calldata _reason) external {\r\n        require(_orderId > 0 && _orderId <= orderCounter, \"Don hang khong ton tai\");\r\n        Order storage order = orders[_orderId];\r\n\r\n        require(\r\n            msg.sender == order.buyer || msg.sender == order.farmer,\r\n            \"Chi nguoi mua hoac nong dan moi co quyen\"\r\n        );\r\n        require(order.status == OrderStatus.Shipped, \"Don hang chua o trang thai Shipped\");\r\n\r\n        order.status = OrderStatus.Disputed;\r\n\r\n        emit DisputeRaised(_orderId, msg.sender, _reason, block.timestamp);\r\n    }\r\n\r\n    function resolveDispute(uint256 _orderId, bool _favorFarmer) external {\r\n        require(_orderId > 0 && _orderId <= orderCounter, \"Don hang khong ton tai\");\r\n        Order storage order = orders[_orderId];\r\n\r\n        require(msg.sender == order.arbitrator, \"Chi trong tai moi co quyen\");\r\n        require(order.status == OrderStatus.Disputed, \"Don hang khong o trang thai Disputed\");\r\n\r\n        uint256 remaining = order.totalAmount - order.advancePaid; // 70% con lai\r\n        address payable winner = _favorFarmer ? order.farmer : order.buyer;\r\n\r\n        // Cap nhat trang thai TRUOC khi chuyen tien\r\n        order.status = OrderStatus.Completed;\r\n\r\n        (bool success, ) = winner.call{value: remaining}(\"\");\r\n        require(success, \"Chuyen tien that bai\");\r\n\r\n        emit DisputeResolved(_orderId, msg.sender, winner, remaining, block.timestamp);\r\n    }\r\n\r\n    function getOrder(uint256 _orderId) external view returns (Order memory) {\r\n        require(_orderId > 0 && _orderId <= orderCounter, \"Don hang khong ton tai\");\r\n        return orders[_orderId];\r\n    }\r\n}"
+      }
+    }
+  }
+}
