@@ -1,57 +1,46 @@
 /* Lucian UX/UI Prompt #244 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#244 */
 .u244 {
-  --ux-surface: #ffffff;
-  --ux-surface-2: #f8fafc;
-  --ux-ink: #0f172a;
-  --ux-ink-2: #334155;
-  --ux-ink-3: #64748b;
-  --ux-line: rgba(15, 23, 42, 0.12);
-  --ux-accent: #10b981;
+  --ux-surface: rgba(255, 255, 255, 0.72);
+  --ux-surface-2: rgba(246, 247, 244, 0.85);
+  --ux-ink: #10291a;
+  --ux-ink-2: #2c4434;
+  --ux-ink-3: #4a5a4f;
+  --ux-line: rgba(16, 41, 26, 0.14);
+  --ux-accent: #15803d;
   --ux-danger: #e11d48;
   --ux-danger-ink: #be123c;
 
   position: relative;
   width: 100%;
-  border-radius: 20px;
-  background: var(--ux-surface);
-  box-shadow: 0 0 0 1px var(--ux-line), 0 20px 40px -24px rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+  background: transparent;
   color: var(--ux-ink);
   box-sizing: border-box;
-}
-
-/* Hỗ trợ Dark Mode nếu dự án dùng class .dark hoặc data-theme="dark" */
-:is(.dark, [data-theme="dark"]) .u244 {
-  --ux-surface: #13141c;
-  --ux-surface-2: #1e202b;
-  --ux-ink: #f4f0e8;
-  --ux-ink-2: rgba(244, 240, 232, 0.78);
-  --ux-ink-3: rgba(244, 240, 232, 0.45);
-  --ux-line: rgba(255, 255, 255, 0.12);
-  --ux-accent: #34d399;
-  --ux-danger: #fb7185;
-  --ux-danger-ink: #fda4af;
+  font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif !important;
 }
 
 .u244 *,
 .u244 *::before,
 .u244 *::after {
   box-sizing: border-box;
+  font-family: "Inter Tight", "Helvetica Neue", Arial, sans-serif;
 }
 
 .u244-sc {
-  padding: 24px 22px 26px;
+  padding: 28px 26px 30px;
 }
 
 .u244-hd {
   text-align: center;
-  margin-bottom: 18px;
+  margin-bottom: 20px;
 }
 
 .u244 h3 {
   margin: 0;
-  font-size: 19px;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: #10291a;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,10 +48,10 @@
 }
 
 .u244-hd > p {
-  margin: 4px 0 0;
-  font-size: 12.5px;
-  font-weight: 500;
-  color: var(--ux-ink-3);
+  margin: 5px 0 0;
+  font-size: 13.5px;
+  font-weight: 400;
+  color: var(--ux-ink-2);
 }
 
 /* Hộp tóm tắt lỗi trượt xuống ở trên cùng */
@@ -83,16 +72,16 @@
 
 .u244-sb {
   padding: 12px 14px;
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--ux-danger) 10%, transparent);
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ux-danger) 30%, transparent);
+  border-radius: 12px;
+  background: rgba(255, 228, 230, 0.85);
+  box-shadow: inset 0 0 0 1px rgba(225, 29, 72, 0.3);
 }
 .u244-sb b {
   display: flex;
   align-items: center;
   gap: 7px;
-  font-size: 12.5px;
-  font-weight: 800;
+  font-size: 13px;
+  font-weight: 600;
   color: var(--ux-danger-ink);
 }
 .u244-sb b i {
@@ -103,7 +92,7 @@
   color: #fff;
   font-style: normal;
   font-size: 11px;
-  font-weight: 900;
+  font-weight: 700;
   display: grid;
   place-items: center;
   flex-shrink: 0;
@@ -111,8 +100,8 @@
 .u244-sb ul {
   margin: 7px 0 0;
   padding: 0 0 0 24px;
-  font-size: 12px;
-  font-weight: 650;
+  font-size: 12.5px;
+  font-weight: 500;
 }
 .u244-sb li {
   margin-top: 3px;
@@ -136,7 +125,7 @@
 
 /* Từng trường nhập liệu */
 .u244-fd {
-  margin-top: 15px;
+  margin-top: 16px;
 }
 .u244-lb-row {
   display: flex;
@@ -145,21 +134,22 @@
   gap: 8px;
 }
 .u244-fd label {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ux-ink-2);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ux-ink);
 }
 .u244-badge {
+  font-family: "JetBrains Mono", monospace !important;
   font-size: 10.5px;
-  font-weight: 700;
-  padding: 2px 7px;
-  border-radius: 6px;
-  background: color-mix(in srgb, var(--ux-accent) 12%, transparent);
-  color: #059669;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: rgba(198, 243, 92, 0.45);
+  color: #10291a;
 }
 .u244-badge.is-neutral {
-  background: var(--ux-surface-2);
-  color: var(--ux-ink-3);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--ux-ink-2);
   box-shadow: inset 0 0 0 1px var(--ux-line);
 }
 
@@ -170,33 +160,32 @@
 .u244-in {
   width: 100%;
   height: 44px;
-  padding: 0 42px 0 13px;
+  padding: 0 42px 0 14px;
   border: 0;
-  border-radius: 12px;
-  background: var(--ux-surface-2);
-  box-shadow: inset 0 0 0 1.5px var(--ux-line);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: inset 0 0 0 1px var(--ux-line);
   color: var(--ux-ink);
-  font: inherit;
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 500;
   outline: none;
   transition: box-shadow 0.2s, background 0.2s;
 }
 .u244-in.is-mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: "JetBrains Mono", ui-monospace, Menlo, monospace !important;
   font-size: 12.5px;
 }
 .u244-in:focus {
-  box-shadow: inset 0 0 0 2px var(--ux-accent);
-  background: var(--ux-surface);
+  box-shadow: inset 0 0 0 2px #10291a, 0 0 0 3px rgba(198, 243, 92, 0.4);
+  background: #ffffff;
 }
 
 /* Trạng thái Lỗi & Hợp lệ */
 .u244-fd.is-bad .u244-in {
-  box-shadow: inset 0 0 0 2px var(--ux-danger);
+  box-shadow: inset 0 0 0 1.5px var(--ux-danger);
 }
 .u244-fd.is-good .u244-in {
-  box-shadow: inset 0 0 0 1.5px color-mix(in srgb, #10b981 65%, transparent);
+  box-shadow: inset 0 0 0 1.5px #16a34a;
 }
 .u244-fd.is-shake .u244-bx {
   animation: u244-sh 0.4s;
@@ -214,7 +203,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #10b981;
+  background: #16a34a;
   transform: scale(0);
   transition: transform 0.35s cubic-bezier(0.3, 1.7, 0.5, 1);
   pointer-events: none;
@@ -233,6 +222,7 @@
 .u244-fd.is-good .u244-ok {
   transform: scale(1);
 }
+
 /* Đẩy dấu tích sang trái nếu có nhãn đơn vị KG / AVAX */
 .u244-fd.has-unit .u244-in {
   padding-right: 84px;
@@ -246,12 +236,12 @@
   top: 9px;
   height: 26px;
   padding: 0 8px;
-  border-radius: 7px;
-  background: var(--ux-surface);
-  box-shadow: inset 0 0 0 1px var(--ux-line);
+  border-radius: 6px;
+  background: #e7ebe8;
+  font-family: "JetBrains Mono", monospace !important;
   font-size: 11px;
-  font-weight: 800;
-  color: var(--ux-ink-2);
+  font-weight: 600;
+  color: #10291a;
   display: grid;
   place-items: center;
   pointer-events: none;
@@ -259,7 +249,6 @@
 .u244-unit.is-avax {
   background: #ef4444;
   color: #fff;
-  box-shadow: none;
 }
 
 /* Dòng gợi ý lỗi mở/gập mượt */
@@ -271,8 +260,8 @@
 .u244-ms > div {
   min-height: 0;
   overflow: hidden;
-  font-size: 11.5px;
-  font-weight: 700;
+  font-size: 12px;
+  font-weight: 500;
   color: var(--ux-danger-ink);
 }
 .u244-ms > div > span {
@@ -285,12 +274,12 @@
 
 /* Bảng tính phân rã 30/70 */
 .u244-split {
-  margin-top: 16px;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: var(--ux-surface-2);
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.72);
   box-shadow: inset 0 0 0 1px var(--ux-line);
-  font-size: 12px;
+  font-size: 12.5px;
 }
 .u244-split-row {
   display: flex;
@@ -298,22 +287,23 @@
   align-items: center;
   padding: 3px 0;
   color: var(--ux-ink-2);
-  font-weight: 600;
+  font-weight: 500;
 }
 .u244-split-row strong {
-  color: #0284c7;
-  font-family: ui-monospace, monospace;
+  color: #15803d;
+  font-family: "JetBrains Mono", monospace !important;
+  font-weight: 600;
 }
 .u244-note {
   margin: 8px 0 0;
   padding-top: 8px;
   border-top: 1px dashed var(--ux-line);
-  font-size: 11px;
-  color: var(--ux-ink-3);
+  font-size: 12px;
+  color: var(--ux-ink-2);
   line-height: 1.45;
 }
 
-/* Nút Submit */
+/* Nút Submit chuẩn Mossline */
 .u244-go {
   display: flex;
   align-items: center;
@@ -323,25 +313,28 @@
   height: 48px;
   margin-top: 18px;
   border: 0;
-  border-radius: 13px;
-  background: #0f172a;
-  color: #ffffff;
-  font: inherit;
-  font-size: 13.5px;
-  font-weight: 800;
+  border-radius: 10px;
+  background: #10291a;
+  color: #c6f35c;
+  font-family: "JetBrains Mono", monospace !important;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s, transform 0.15s;
+  transition: background 0.25s, transform 0.15s;
 }
 .u244-go:hover:not(:disabled) {
-  background: #1e293b;
+  background: #2c4434;
 }
 .u244-go.is-done {
-  background: #059669;
+  background: #15803d;
+  color: #ffffff;
 }
 
 .u244 button:focus-visible,
 .u244 input:focus-visible {
-  outline: 2px solid var(--ux-accent);
+  outline: 2px solid #10291a;
   outline-offset: 2px;
 }
 
