@@ -1,5 +1,5 @@
 // 1. Địa chỉ Smart Contract (Sau này deploy lên mạng Fuji hoặc Localhost thì dán địa chỉ vào đây)
-export const CONTRACT_ADDRESS = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+export const CONTRACT_ADDRESS = "0x0c6dcF294F49Bc8cCa8a2BEF7b42533e38beABdE";
 
 // 2. Danh sách các hàm & sự kiện của Thành viên B
 export const AGRI_ESCROW_ABI = [
