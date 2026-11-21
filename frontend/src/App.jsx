@@ -377,7 +377,7 @@ export default function BuyerPortal() {
             }}
           >
             <span>
-              <strong>⚡ Giao dịch đã gửi lên Fuji Testnet:</strong>{" "}
+              <strong> Giao dịch đã gửi lên Fuji Testnet:</strong>{" "}
               <a
                 href={`https://testnet.snowtrace.io/tx/${txHash}`}
                 target="_blank"
@@ -949,7 +949,7 @@ export default function BuyerPortal() {
 
             <div style={{ display: "flex", flexDirection: "column", gap: 14, fontSize: 13, color: "#2c4434" }}>
               <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 16 }}>📍</span>
+                <span style={{ fontSize: 16 }}></span>
                 <div>
                   <strong style={{ color: "#10291a", display: "block" }}>Địa chỉ mạng lưới & hợp đồng</strong>
                   <span>Avalanche Fuji Testnet · Chain ID 43113</span>
@@ -960,7 +960,7 @@ export default function BuyerPortal() {
               </div>
 
               <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 16 }}>📞</span>
+                <span style={{ fontSize: 16 }}></span>
                 <div>
                   <strong style={{ color: "#10291a", display: "block" }}>Hỗ trợ nông dân & đối tác</strong>
                   <a href="#support" onClick={(e) => e.preventDefault()} style={{ color: "#15803D", fontWeight: 600, textDecoration: "underline" }}>
@@ -970,7 +970,7 @@ export default function BuyerPortal() {
               </div>
 
               <div style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <span style={{ fontSize: 16 }}>⏱️</span>
+                <span style={{ fontSize: 16 }}></span>
                 <div>
                   <strong style={{ color: "#9a3412", display: "block" }}>Thời gian hoạt động</strong>
                   <span>Smart Contract vận hành 24/7</span>

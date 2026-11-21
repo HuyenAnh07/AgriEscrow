@@ -136,7 +136,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
 
         {!account ? (
           <div style={{ padding: 36, background: "#FFFFFF", borderRadius: 12, textAlign: "center", color: "#3F493F", fontSize: 14, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
-            ⚠️ Vui lòng bấm <strong>Kết nối Ví Avalanche</strong> ở góc trên bên phải để tải các đơn hàng đang giao tới ví của bạn.
+              Vui lòng bấm <strong>Kết nối Ví Avalanche</strong> ở góc trên bên phải để tải các đơn hàng đang giao tới ví của bạn.
           </div>
         ) : buyerShippedOrders.length === 0 ? (
           <div style={{ padding: 36, background: "#FFFFFF", borderRadius: 12, textAlign: "center", color: "#3F493F", fontSize: 14, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
@@ -199,7 +199,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                 <div style={{ padding: 16, background: "#F2F3FF", borderRadius: 12, display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 8 }}>
                     <div style={{ color: "#131B2E", fontSize: 12, fontWeight: 700 }}>
-                      🔒 Cơ Chế Khóa Tiền Smart Escrow: Tổng ký quỹ {totalAvax.toFixed(3)} AVAX
+                        Cơ Chế Khóa Tiền Smart Escrow: Tổng ký quỹ {totalAvax.toFixed(3)} AVAX
                     </div>
                     <div style={{ color: "#3F493F", fontSize: 12, fontFamily: "JetBrains Mono, monospace", fontWeight: 500 }}>
                       Giải ngân giai đoạn: 30% / 70%
@@ -279,7 +279,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                           boxShadow: "0 2px 4px rgba(0, 101, 44, 0.2)"
                         }}
                       >
-                        {isLoading ? "⏳ Đang gửi giao dịch..." : "✓ Xác nhận đã nhận đủ hàng (Giải ngân 70%)"}
+                        {isLoading ? " Đang gửi giao dịch..." : "✓ Xác nhận đã nhận đủ hàng (Giải ngân 70%)"}
                       </button>
                       <div style={{ textAlign: "center", color: "#6F7A6E", fontSize: 11, fontWeight: 600 }}>
                         Giao dịch được ký trực tiếp trên ví Avalanche Web3
@@ -291,7 +291,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                   <div style={{ padding: 22, background: "rgba(255, 218, 214, 0.25)", borderRadius: 12, display: "flex", flexDirection: "column", justifyContent: "space-between", gap: 18 }}>
                     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                       <div style={{ color: "#D13034", fontSize: 16, fontWeight: 700, display: "flex", alignItems: "center", gap: 8 }}>
-                        <span>⚠️</span> Hàng Bị Hư Hại Hoặc Thiếu Hụt
+                        <span></span> Hàng Bị Hư Hại Hoặc Thiếu Hụt
                       </div>
                       <p style={{ margin: 0, color: "#3F493F", fontSize: 13.5, lineHeight: 1.55 }}>
                         Nếu nông sản có vấn đề về phẩm cấp hoặc thiếu số lượng, mở khiếu nại để tạm giữ{" "}
@@ -344,7 +344,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                           boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)"
                         }}
                       >
-                        {isLoading ? "⏳ Đang gửi khiếu nại..." : "⚖️ Khiếu nại / Mở tranh chấp"}
+                        {isLoading ? " Đang gửi khiếu nại..." : " Khiếu nại / Mở tranh chấp"}
                       </button>
                       <div style={{ textAlign: "center", color: "#6F7A6E", fontSize: 11, fontWeight: 600 }}>
                         Smart Contract sẽ tự động chuyển sang trạng thái Tranh Chấp
@@ -365,7 +365,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 12 }}>
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: 6, color: "#AE121F", fontSize: 12, fontWeight: 600, letterSpacing: 0.6 }}>
-              <span>⚖️</span> HỘI ĐỒNG GIÁM SÁT PHÂN QUYỀN
+              <span></span> HỘI ĐỒNG GIÁM SÁT PHÂN QUYỀN
             </div>
             <h2 style={{ margin: "4px 0", color: "#131B2E", fontSize: 26, fontWeight: 700 }}>
               Bảng Điều Khiển Trọng Tài Phân Xử
@@ -385,7 +385,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
 
         {!account ? (
           <div style={{ padding: 36, background: "#FFFFFF", borderRadius: 12, textAlign: "center", color: "#3F493F", fontSize: 14, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
-            ⚠️ Vui lòng kết nối ví <strong>Trọng Tài (Arbitrator)</strong> để xem và phân xử các vụ tranh chấp đang mở.
+             Vui lòng kết nối ví <strong>Trọng Tài (Arbitrator)</strong> để xem và phân xử các vụ tranh chấp đang mở.
           </div>
         ) : arbitratorDisputedOrders.length === 0 ? (
           <div style={{ padding: 36, background: "#FFFFFF", borderRadius: 12, textAlign: "center", color: "#3F493F", fontSize: 14, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
@@ -474,7 +474,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                   {/* Khung lý do khiếu nại & Bằng chứng */}
                   <div style={{ padding: 16, background: "rgba(255, 218, 214, 0.30)", borderRadius: 12, display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: 12 }}>
                     <div style={{ display: "flex", alignItems: "flex-start", gap: 10 }}>
-                      <span style={{ fontSize: 18 }}>📋</span>
+                      <span style={{ fontSize: 18 }}></span>
                       <div>
                         <div style={{ color: "#131B2E", fontSize: 15, fontWeight: 700 }}>
                           Lý do khiếu nại: "{reasonText}"
@@ -491,7 +491,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                       rel="noreferrer"
                       style={{ padding: "6px 12px", background: "#FFFFFF", color: "#00652C", borderRadius: 8, fontSize: 12, fontWeight: 600, textDecoration: "none", boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}
                     >
-                      🔗 Kiểm tra lịch sử trên Snowtrace
+                       Kiểm tra lịch sử trên Snowtrace
                     </a>
                   </div>
                 </div>
@@ -499,7 +499,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                 {/* 2 Nút Phương Án Phán Quyết Trọng Tài */}
                 <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ color: "#131B2E", fontSize: 12, fontWeight: 600 }}>
-                    ⚖️ Chọn Phương Án Phán Quyết Trọng Tài:
+                     Chọn Phương Án Phán Quyết Trọng Tài:
                   </div>
 
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 16 }}>
@@ -565,7 +565,7 @@ export default function BuyerDeliveryAndArbitratorView({ rawOrders = [], account
                   </div>
 
                   <div style={{ padding: "8px 12px", background: "#F8FAFC", borderRadius: 8, color: "#6F7A6E", fontSize: 11, fontWeight: 600 }}>
-                    🔐 Quyết định của Trọng tài được ký mật mã qua Avalanche Smart Contract và giải phóng ký quỹ tức thời sau 1 Block confirmation.
+                      Quyết định của Trọng tài được ký mật mã qua Avalanche Smart Contract và giải phóng ký quỹ tức thời sau 1 Block confirmation.
                   </div>
                 </div>
               </div>

@@ -322,7 +322,7 @@ export default function FarmerAndPaymentView({ rawOrders, account, contract, onR
                           onClick={() => handleConfirmShipment(order.id)}
                           style={{ flex: 1, padding: "10px 14px", background: "#00652C", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer" }}
                         >
-                          {loading ? "⏳ Đang xử lý..." : "🚚 Xác nhận xuất kho & Nhận 30%"}
+                          {loading ? " Đang xử lý..." : " Xác nhận xuất kho & Nhận 30%"}
                         </button>
                       )}
 
@@ -339,7 +339,7 @@ export default function FarmerAndPaymentView({ rawOrders, account, contract, onR
                         onClick={() => onSelectTrace(Number(order.id))}
                         style={{ padding: "10px 14px", background: "#EAEDFF", color: "#131B2E", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer" }}
                       >
-                        🔍 Truy xuất
+                         Truy xuất
                       </button>
                     </div>
 

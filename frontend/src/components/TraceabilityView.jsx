@@ -251,7 +251,7 @@ export default function TraceabilityView({ contract, initialOrderId = 1, rawOrde
 
       {!loading && !orderData && (
         <div style={{ padding: 40, background: "#FFFFFF", borderRadius: 12, textAlign: "center", color: "#991B1B", fontSize: 14, boxShadow: "0 1px 2px rgba(0,0,0,0.05)" }}>
-          ⚠️ Không tìm thấy dữ liệu cho <strong>Lô #{searchId}</strong> (hoặc bạn chưa bấm <strong>Kết nối Ví Avalanche</strong> ở góc trên).
+            Không tìm thấy dữ liệu cho <strong>Lô #{searchId}</strong> (hoặc bạn chưa bấm <strong>Kết nối Ví Avalanche</strong> ở góc trên).
         </div>
       )}
 
@@ -279,7 +279,7 @@ export default function TraceabilityView({ contract, initialOrderId = 1, rawOrde
                       ✓ {statusBadge.text}
                     </span>
                     <span style={{ padding: "4px 12px", background: "#EAEDFF", color: "#3F493F", borderRadius: 9999, fontSize: 11, fontWeight: 600 }}>
-                      📍 VietGAP • Smart Escrow No. {String(orderData.id).padStart(4, "0")}
+                        VietGAP • Smart Escrow No. {String(orderData.id).padStart(4, "0")}
                     </span>
                   </div>
 
@@ -359,7 +359,7 @@ export default function TraceabilityView({ contract, initialOrderId = 1, rawOrde
             <div style={{ padding: 32, background: "#FFFFFF", borderRadius: 12, boxShadow: "0 1px 2px rgba(0, 0, 0, 0.05)", display: "flex", flexDirection: "column", gap: 24 }}>
               <div>
                 <div style={{ color: "#00652C", fontSize: 12, fontWeight: 600, letterSpacing: 0.6 }}>
-                  🔐 BẰNG CHỨNG MẬT MÃ MINH BẠCH
+                    BẰNG CHỨNG MẬT MÃ MINH BẠCH
                 </div>
                 <h3 style={{ margin: "4px 0", color: "#131B2E", fontSize: 20, fontWeight: 700 }}>
                   Nhật Ký Hành Trình Trên Blockchain

@@ -293,7 +293,7 @@ export default function CreateEscrowForm({ onCreateOrder, isSubmitting = false }
             <strong>{stage2Avax} AVAX</strong>
           </div>
           <p className="u244-note">
-            ℹ️ Tiền ký quỹ sẽ được khóa trong hợp đồng Escrow cho tới khi các bên kích hoạt chữ ký.
+            Tiền ký quỹ sẽ được khóa trong hợp đồng Escrow cho tới khi các bên kích hoạt chữ ký.
           </p>
         </div>
 
@@ -304,10 +304,10 @@ export default function CreateEscrowForm({ onCreateOrder, isSubmitting = false }
           className={`u244-go ${isDone ? 'is-done' : ''}`}
         >
           {isSubmitting
-            ? '⏳ Đang gửi giao dịch lên Fuji...'
+            ? ' Đang gửi giao dịch lên Fuji...'
             : isDone
             ? '✓ Đã khởi tạo đơn hàng thành công'
-            : '🔒 Tạo Đơn & Khóa AVAX'}
+            : ' Tạo Đơn & Khóa AVAX'}
         </button>
       </form>
     </div>
