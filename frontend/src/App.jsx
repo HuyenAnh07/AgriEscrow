@@ -826,7 +826,7 @@ export default function BuyerPortal() {
 
         {activeTab === "traceB" && (
           <div style={{ ...glassLightStyle, padding: 28 }}>
-            <TraceabilityView contract={contract} initialOrderId={traceId} />
+            <TraceabilityView contract={contract} initialOrderId={traceId} rawOrders={rawOrders} />
           </div>
         )}
       </main>
