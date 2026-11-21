@@ -1,0 +1,447 @@
+/* Lucian UX/UI Prompt #233 · MIT License (c) 2026 Seokwoooo · https://lucianlabs.dev/uxui-prompt/#233 */
+.u233 {
+  --ux-surface: #FFFFFF;
+  --ux-surface-2: #F4F7F4;
+  --ux-ink: #132A1C;
+  --ux-ink-2: #3F493F;
+  --ux-ink-3: #6F7A6E;
+  --ux-line: rgba(21, 128, 61, 0.14);
+  --ux-accent: #15803D;
+  --ux-accent-2: #16A34A;
+  --ux-accent-soft: rgba(21, 128, 61, 0.1);
+  --ux-mint: #15803D;
+  --ux-danger: #DC2626;
+  --ux-shadow-strong: rgba(19, 42, 28, 0.12);
+
+  position: relative;
+  width: 100%;
+  height: 340px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: radial-gradient(
+      90% 60% at 50% 0%,
+      rgba(21, 128, 61, 0.08),
+      transparent 70%
+    ),
+    var(--ux-surface);
+  box-shadow: 0 0 0 1px var(--ux-line), 0 12px 32px -12px var(--ux-shadow-strong);
+  color: var(--ux-ink);
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.01em;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
+}
+
+:root[data-theme="dark"] .u233 {
+  --ux-surface: #131A16;
+  --ux-surface-2: #1A241E;
+  --ux-ink: #F4F7F4;
+  --ux-ink-2: rgba(244, 247, 244, 0.75);
+  --ux-ink-3: rgba(244, 247, 244, 0.5);
+  --ux-line: rgba(255, 255, 255, 0.1);
+  --ux-accent: #4ADE80;
+  --ux-accent-2: #22C55E;
+  --ux-accent-soft: rgba(74, 222, 128, 0.15);
+  --ux-mint: #4ADE80;
+  --ux-danger: #F87171;
+  --ux-shadow-strong: rgba(0, 0, 0, 0.5);
+}
+
+.u233 *,
+.u233 *::before,
+.u233 *::after {
+  box-sizing: border-box;
+}
+
+.u233 :is(button, textarea) {
+  font: inherit;
+}
+
+.u233-g {
+  position: absolute;
+  inset: 0;
+  transform: translateY(46px);
+  transition: transform 0.6s cubic-bezier(0.3, 1, 0.3, 1);
+}
+
+.u233.is-run .u233-g,
+.u233.is-done .u233-g {
+  transform: none;
+}
+
+.u233-h {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 26px;
+  margin: 0;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--ux-ink);
+  letter-spacing: -0.03em;
+}
+
+.u233-s {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  top: 58px;
+  text-align: center;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--ux-ink-3);
+}
+
+@property --u233-a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.u233-bx {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 92px;
+  height: 92px;
+  border-radius: 18px;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--u233-a, 0deg),
+    #15803D,
+    #34D399,
+    #86EFAC,
+    #15803D
+  );
+  animation: u233-spin 6s linear infinite;
+}
+
+@keyframes u233-spin {
+  to {
+    --u233-a: 360deg;
+  }
+}
+
+.u233-in {
+  position: relative;
+  height: 100%;
+  border-radius: 16px;
+  background: var(--ux-surface);
+  padding: 12px 14px;
+}
+
+.u233-tx {
+  display: block;
+  width: 100%;
+  height: 46px;
+  border: 0;
+  padding: 0 44px 0 0;
+  background: transparent;
+  resize: none;
+  font: inherit;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 600;
+  color: var(--ux-ink);
+  outline: none;
+}
+
+.u233-ph {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  right: 56px;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--ux-ink-3);
+  pointer-events: none;
+}
+
+.u233-ph::after {
+  content: "";
+  display: inline-block;
+  width: 1.5px;
+  height: 1.05em;
+  margin-left: 2px;
+  vertical-align: -2px;
+  background: var(--ux-accent);
+  animation: u233-cur 1s steps(2) infinite;
+}
+
+@keyframes u233-cur {
+  50% {
+    opacity: 0;
+  }
+}
+
+.u233-go {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 34px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ux-accent);
+  color: #FFFFFF;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(21, 128, 61, 0.28);
+  transition: transform 0.2s, background 0.2s, opacity 0.2s;
+}
+
+.u233-go:hover:not(:disabled) {
+  background: #166534;
+  transform: scale(1.04);
+}
+
+.u233-go:disabled {
+  opacity: 0.4;
+  cursor: default;
+  box-shadow: none;
+}
+
+.u233-go svg {
+  width: 15px;
+  height: 15px;
+  stroke: #FFFFFF;
+}
+
+.u233-go .u233-sp {
+  display: none;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 2px solid #FFFFFF;
+  border-right-color: transparent;
+  animation: u233-rot 0.7s linear infinite;
+}
+
+.u233.is-run .u233-go svg {
+  display: none;
+}
+
+.u233.is-run .u233-go .u233-sp {
+  display: block;
+}
+
+@keyframes u233-rot {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.u233-go:focus-visible,
+.u233-ch:focus-visible,
+.u233-nw:focus-visible {
+  outline: 2px solid var(--ux-accent);
+  outline-offset: 2px;
+}
+
+.u233-chs {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 196px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.u233-ch {
+  border: 1px solid rgba(21, 128, 61, 0.2);
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #F0FDF4;
+  color: #166534;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.u233-ch:hover {
+  background: #DCFCE7;
+  border-color: #15803D;
+  color: #14532D;
+}
+
+.u233.is-run .u233-chs,
+.u233.is-done .u233-chs {
+  opacity: 0;
+  transform: translateY(6px);
+  pointer-events: none;
+}
+
+.u233-gen {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  top: 196px;
+  height: 124px;
+  border-radius: 16px;
+  background: #F8FAFC;
+  border: 1px solid rgba(21, 128, 61, 0.16);
+  padding: 12px 14px;
+  opacity: 0;
+  transform: translateY(14px) scale(0.97);
+  transition: opacity 0.35s, transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  pointer-events: none;
+}
+
+.u233.is-run .u233-gen {
+  transition-delay: 0.18s;
+}
+
+.u233.is-run .u233-gen,
+.u233.is-done .u233-gen {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+
+.u233-gh {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ux-ink);
+}
+
+.u233-gh i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--ux-accent);
+  box-shadow: 0 0 0 0 var(--ux-accent);
+  animation: u233-pl 1.2s ease-out infinite;
+}
+
+.u233.is-done .u233-gh i {
+  background: var(--ux-mint);
+  animation: none;
+}
+
+.u233.is-error .u233-gh i {
+  background: var(--ux-danger);
+  animation: none;
+}
+
+@keyframes u233-pl {
+  70% {
+    box-shadow: 0 0 0 7px transparent;
+  }
+}
+
+.u233-gs {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--ux-ink-3);
+  margin: 4px 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.u233-ln {
+  height: 8px;
+  border-radius: 4px;
+  margin-top: 7px;
+  background: linear-gradient(
+    90deg,
+    #E2E8F0 0 30%,
+    #BBF7D0 50%,
+    #E2E8F0 70%
+  );
+  background-size: 300% 100%;
+  animation: u233-sh 1.4s linear infinite;
+  transform-origin: 0 50%;
+  transition: transform 0.5s;
+}
+
+@keyframes u233-sh {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+.u233.is-done .u233-ln {
+  animation: none;
+  background: #DCFCE7;
+}
+
+.u233.is-error .u233-ln {
+  animation: none;
+  background: #FEE2E2;
+}
+
+.u233-nw {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+  border: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--ux-accent);
+  color: #FFFFFF;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, background 0.2s;
+}
+
+.u233-nw:hover {
+  background: #166534;
+}
+
+.u233.is-done .u233-nw {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (max-width: 480px) {
+  .u233-bx,
+  .u233-chs,
+  .u233-gen {
+    left: 16px;
+    right: 16px;
+  }
+  .u233-h {
+    font-size: 19px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .u233,
+  .u233 *,
+  .u233 *::before,
+  .u233 *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .u233-bx,
+  .u233-ln,
+  .u233-ph::after {
+    animation: none !important;
+  }
+  .u233-g,
+  .u233-gen {
+    transition: none !important;
+  }
+}
