@@ -1,6 +1,6 @@
 // 1. Địa chỉ Smart Contract (Tự động ưu tiên biến môi trường .env nếu có)
 export const CONTRACT_ADDRESS =
-  import.meta.env.VITE_CONTRACT_ADDRESS || "0x0c6dcF294F49Bc8cCa8a2BEF7b42533e38beABdE";
+  import.meta.env.VITE_CONTRACT_ADDRESS || "0xd1C8fDce7B4E97FcF67b7432A53a858d672c5807";
 
 // 2. Danh sách các hàm & sự kiện khớp 100% với AgriEscrow.sol
 export const AGRI_ESCROW_ABI = [
